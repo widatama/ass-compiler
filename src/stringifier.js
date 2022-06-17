@@ -61,7 +61,7 @@ export function stringifyText(Text) {
 }
 
 export function stringifyEvent(event) {
-  const m0 = '0000';
+  const m0 = '0';
   return [
     event.Layer,
     stringifyTime(event.Start),

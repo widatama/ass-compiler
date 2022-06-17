@@ -113,7 +113,7 @@ Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-Comment: 0,0:00:00.00,0:00:04.00,Default,,0000,0000,0000,Banner;5;1;80,text
-Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0000,8,0000,,text
-Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0000,8,0000,,{\\p1}m 0 0 l 1 1
+Comment: 0,0:00:00.00,0:00:04.00,Default,,0,0,0,Banner;5;1;80,text
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,8,0,,text
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,8,0,,{\\p1}m 0 0 l 1 1
 `;

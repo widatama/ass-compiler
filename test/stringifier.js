@@ -48,7 +48,7 @@ describe('ASS stringifier', () => {
         combined: 'text',
         parsed: [{ tags: [], text: 'text', drawing: [] }],
       },
-    }, eventsFormat)).to.equal('0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,text');
+    }, eventsFormat)).to.equal('0,0:00:00.00,0:00:05.00,Default,,0,0,0,,text');
   });
 
   it('should stringify ASS', () => {
