@@ -1,6 +1,6 @@
 # ass-compiler
 
-[![GitHub Action](https://github.com/widatama/ass-compiler/workflows/CI/badge.svg)](https://github.com/widatama/ass-compiler/actions)
+[![GitHub Action](https://github.com/widatama/ass-compiler/workflows/ci/badge.svg)](https://github.com/widatama/ass-compiler/actions)
 [![License](https://badgen.net/npm/license/ass-compiler?icon=https://api.iconify.design/octicon:law.svg?color=white)](https://github.com/weizhenye/ass-compiler/blob/master/LICENSE)
 
 Parses and compiles ASS subtitle format to easy-to-use data structure.
