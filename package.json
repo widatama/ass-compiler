@@ -1,6 +1,6 @@
 {
   "name": "@widatama/ass-compiler",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Parses and compiles ASS subtitle format to easy-to-use data structure.",
   "main": "dist/ass-compiler.js",
   "module": "src/index.js",
@@ -39,7 +39,7 @@
     "url": "https://github.com/widatama/ass-compiler/issues"
   },
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com"
   },
   "homepage": "https://ass.js.org/ass-compiler/",
   "devDependencies": {
