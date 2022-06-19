@@ -93,7 +93,7 @@ export function decompileText(dia, style) {
 }
 
 function getMargin(margin, styleMargin) {
-  return margin === styleMargin ? '0000' : margin;
+  return margin === styleMargin ? '0' : margin;
 }
 
 export function decompileDialogue(dia, style) {
