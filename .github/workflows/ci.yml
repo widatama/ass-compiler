@@ -30,6 +30,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: build
+          path: dist
       - run: npm publish
         env:
           GH_PKG_READ_WRITE: ${{ secrets.GITHUB_TOKEN }}
