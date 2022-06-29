@@ -76,7 +76,9 @@ export function stringifyEvent(event) {
   ].join();
 }
 
-export function stringify({ info, styles, events }) {
+export function stringify({ info, styles, events }, options = { skipEmptyEvent: false }) {
+  const { skipEmptyEvent } = options;
+
   return [
     '[Script Info]',
     stringifyInfo(info),
@@ -89,11 +91,17 @@ export function stringify({ info, styles, events }) {
     `Format: ${eventsFormat.join(', ')}`,
     ...[]
       .concat(...['Comment', 'Dialogue'].map((type) => (
-        events[type.toLowerCase()].map((dia) => ({
-          start: dia.Start,
-          end: dia.End,
-          string: `${type}: ${stringifyEvent(dia)}`,
-        }))
+        events[type.toLowerCase()].flatMap((event) => {
+          if (skipEmptyEvent && event.Text.raw.length === 0) {
+            return [];
+          }
+
+          return {
+            start: event.Start,
+            end: event.End,
+            string: `${type}: ${stringifyEvent(event)}`,
+          };
+        })
       )))
       .sort((a, b) => (a.start - b.start) || (a.end - b.end))
       .map((x) => x.string),
