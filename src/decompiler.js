@@ -120,7 +120,19 @@ export function decompileDialogue(dia, style) {
   ].join()}`;
 }
 
-export function decompile({ info, width, height, collisions, styles, dialogues }) {
+export function decompile(
+  {
+    info,
+    width,
+    height,
+    collisions,
+    styles,
+    dialogues,
+  },
+  options = { skipEmptyEvent: false },
+) {
+  const { skipEmptyEvent } = options;
+
   return [
     '[Script Info]',
     stringifyInfo(assign({}, info, {
@@ -137,7 +149,13 @@ export function decompile({ info, width, height, collisions, styles, dialogues }
     `Format: ${eventsFormat.join(', ')}`,
     ...dialogues
       .sort((x, y) => x.start - y.start || x.end - y.end)
-      .map((dia) => decompileDialogue(dia, styles[dia.style].style)),
+      .flatMap((dia) => {
+        if (skipEmptyEvent && dia.slices.length === 1 && dia.slices[0].fragments.length === 0) {
+          return [];
+        }
+
+        return decompileDialogue(dia, styles[dia.style].style);
+      }),
     '',
   ].join('\n');
 }
