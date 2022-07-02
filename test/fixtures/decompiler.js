@@ -342,12 +342,12 @@ Style: Alt,Times New Roman,40,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
-Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,This is a test of the ASS format and some basic features in it.
-Dialogue: 0,0:00:11.00,0:00:13.00,Default,,0,0,0,,{\\an9}Upper right
-Dialogue: 0,0:00:24.00,0:00:26.00,Default,,0,0,0,,Also {\\rAlt}switching to a different style {\\r}inline
-Dialogue: 0,0:00:26.00,0:00:28.00,Default,,0,0,0,,{\\an5\\pos(258,131)}Positioning... this line should be in an odd place
-Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0,0,0,,{\\p1}m 0 0 l 1 1
-Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0,0,0,,
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:11.00,0:00:13.00,Default,,0000,0000,0000,,{\\an9}Upper right
+Dialogue: 0,0:00:24.00,0:00:26.00,Default,,0000,0000,0000,,Also {\\rAlt}switching to a different style {\\r}inline
+Dialogue: 0,0:00:26.00,0:00:28.00,Default,,0000,0000,0000,,{\\an5\\pos(258,131)}Positioning... this line should be in an odd place
+Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0000,0000,0000,,{\\p1}m 0 0 l 1 1
+Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0000,0000,0000,,
 `;
 
 export const decompiledSkipEmpty = `[Script Info]
@@ -367,9 +367,9 @@ Style: Alt,Times New Roman,40,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
-Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,This is a test of the ASS format and some basic features in it.
-Dialogue: 0,0:00:11.00,0:00:13.00,Default,,0,0,0,,{\\an9}Upper right
-Dialogue: 0,0:00:24.00,0:00:26.00,Default,,0,0,0,,Also {\\rAlt}switching to a different style {\\r}inline
-Dialogue: 0,0:00:26.00,0:00:28.00,Default,,0,0,0,,{\\an5\\pos(258,131)}Positioning... this line should be in an odd place
-Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0,0,0,,{\\p1}m 0 0 l 1 1
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:11.00,0:00:13.00,Default,,0000,0000,0000,,{\\an9}Upper right
+Dialogue: 0,0:00:24.00,0:00:26.00,Default,,0000,0000,0000,,Also {\\rAlt}switching to a different style {\\r}inline
+Dialogue: 0,0:00:26.00,0:00:28.00,Default,,0000,0000,0000,,{\\an5\\pos(258,131)}Positioning... this line should be in an odd place
+Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0000,0000,0000,,{\\p1}m 0 0 l 1 1
 `;

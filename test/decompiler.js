@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { decompile, decompileDrawing, decompileTag } from '../src/decompiler.js';
+import { decompile, decompileDialogue, decompileDrawing, decompileTag } from '../src/decompiler.js';
 import { compiled, decompiled, decompiledSkipEmpty } from './fixtures/decompiler.js';
 
 describe('ASS decompiler', () => {
@@ -9,6 +9,39 @@ describe('ASS decompiler', () => {
 
   it('should skip empty dialogue', () => {
     expect(decompile(compiled, { skipEmptyEvent: true })).to.equal(decompiledSkipEmpty);
+  });
+
+  it('should decompile dialogue', () => {
+    const dialogue = {
+      layer: 0,
+      start: 0,
+      end: 4,
+      style: 'Default',
+      name: '',
+      margin: {
+        left: 10,
+        right: 10,
+        vertical: 10,
+      },
+      effect: null,
+      alignment: 2,
+      slices: [
+        {
+          style: 'Default',
+          fragments: [
+            {
+              tag: {},
+              text: 'This is a test of the ASS format and some basic features in it.',
+              drawing: null,
+            },
+          ],
+        },
+      ],
+    };
+    const { style } = compiled.styles.Default;
+
+    expect(decompileDialogue(dialogue, style)).to.equal('Dialogue: 0,0:00:00.00,0:00:04.00,Default,,0000,0000,0000,,This is a test of the ASS format and some basic features in it.');
+    expect(decompileDialogue(dialogue, style, '0')).to.equal('Dialogue: 0,0:00:00.00,0:00:04.00,Default,,0,0,0,,This is a test of the ASS format and some basic features in it.');
   });
 
   it('should decompile drawing', () => {

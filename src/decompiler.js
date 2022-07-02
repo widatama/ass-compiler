@@ -101,20 +101,20 @@ export function decompileText(dia, style) {
     .join('');
 }
 
-function getMargin(margin, styleMargin) {
-  return margin === styleMargin ? '0' : margin;
+function getMargin(margin, styleMargin, defaultMargin = '0000') {
+  return margin === styleMargin ? defaultMargin : margin;
 }
 
-export function decompileDialogue(dia, style) {
+export function decompileDialogue(dia, style, defaultMargin = '0000') {
   return `Dialogue: ${[
     dia.layer,
     stringifyTime(dia.start),
     stringifyTime(dia.end),
     dia.style,
     dia.name,
-    getMargin(dia.margin.left, style.MarginL),
-    getMargin(dia.margin.right, style.MarginR),
-    getMargin(dia.margin.vertical, style.MarginV),
+    getMargin(dia.margin.left, style.MarginL, defaultMargin),
+    getMargin(dia.margin.right, style.MarginR, defaultMargin),
+    getMargin(dia.margin.vertical, style.MarginV, defaultMargin),
     stringifyEffect(dia.effect),
     decompileText(dia, style),
   ].join()}`;
@@ -129,9 +129,9 @@ export function decompile(
     styles,
     dialogues,
   },
-  options = { skipEmptyEvent: false },
+  options = { defaultMargin: '0000', skipEmptyEvent: false },
 ) {
-  const { skipEmptyEvent } = options;
+  const { defaultMargin, skipEmptyEvent } = options;
 
   return [
     '[Script Info]',
@@ -154,7 +154,7 @@ export function decompile(
           return [];
         }
 
-        return decompileDialogue(dia, styles[dia.style].style);
+        return decompileDialogue(dia, styles[dia.style].style, defaultMargin);
       }),
     '',
   ].join('\n');

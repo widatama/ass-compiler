@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { stringifyTime, stringifyEffect, stringifyEvent, stringifyTag, stringify } from '../src/stringifier.js';
-import { eventsFormat } from '../src/utils.js';
 import { emptyDialogue, parsed, stringified } from './fixtures/stringifier.js';
 
 describe('ASS stringifier', () => {
@@ -33,7 +32,7 @@ describe('ASS stringifier', () => {
   });
 
   it('should stringify event', () => {
-    expect(stringifyEvent({
+    const event = {
       Layer: 0,
       Start: 0,
       End: 5,
@@ -48,7 +47,9 @@ describe('ASS stringifier', () => {
         combined: 'text',
         parsed: [{ tags: [], text: 'text', drawing: [] }],
       },
-    }, eventsFormat)).to.equal('0,0:00:00.00,0:00:05.00,Default,,0,0,0,,text');
+    };
+    expect(stringifyEvent(event)).to.equal('0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,text');
+    expect(stringifyEvent(event, '0')).to.equal('0,0:00:00.00,0:00:05.00,Default,,0,0,0,,text');
   });
 
   it('should stringify ASS', () => {

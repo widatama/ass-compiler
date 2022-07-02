@@ -60,24 +60,23 @@ export function stringifyText(Text) {
   }).join('');
 }
 
-export function stringifyEvent(event) {
-  const m0 = '0';
+export function stringifyEvent(event, defaultMargin = '0000') {
   return [
     event.Layer,
     stringifyTime(event.Start),
     stringifyTime(event.End),
     event.Style,
     event.Name,
-    event.MarginL || m0,
-    event.MarginR || m0,
-    event.MarginV || m0,
+    event.MarginL || defaultMargin,
+    event.MarginR || defaultMargin,
+    event.MarginV || defaultMargin,
     stringifyEffect(event.Effect),
     stringifyText(event.Text),
   ].join();
 }
 
-export function stringify({ info, styles, events }, options = { skipEmptyEvent: false }) {
-  const { skipEmptyEvent } = options;
+export function stringify({ info, styles, events }, options = { defaultMargin: '0000', skipEmptyEvent: false }) {
+  const { defaultMargin, skipEmptyEvent } = options;
 
   return [
     '[Script Info]',
@@ -99,7 +98,7 @@ export function stringify({ info, styles, events }, options = { skipEmptyEvent: 
           return {
             start: event.Start,
             end: event.End,
-            string: `${type}: ${stringifyEvent(event)}`,
+            string: `${type}: ${stringifyEvent(event, defaultMargin)}`,
           };
         })
       )))
