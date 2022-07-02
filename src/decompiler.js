@@ -63,6 +63,10 @@ export function decompileTag(tag) {
 }
 
 export function decompileSlice(slice) {
+  if (slice.fragments.length === 0) {
+    return '';
+  }
+
   return slice.fragments.map(({ tag, text, drawing }) => {
     const tagText = decompileTag(tag);
     return `${tagText ? `{${tagText}}` : ''}${drawing ? decompileDrawing(drawing) : text}`;
@@ -73,6 +77,11 @@ export function decompileText(dia, style) {
   return dia.slices
     .map((slice, idx) => {
       const sliceCopy = JSON.parse(JSON.stringify(slice));
+
+      if (slice.fragments.length === 0) {
+        return sliceCopy;
+      }
+
       const { tag } = sliceCopy.fragments[0];
       if (idx) {
         tag.r = slice.style === dia.style ? '' : slice.style;

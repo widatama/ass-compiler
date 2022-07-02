@@ -302,6 +302,26 @@ export const compiled = {
         },
       ],
     },
+    {
+      layer: 0,
+      start: 38,
+      end: 40,
+      style: 'Default',
+      name: '',
+      margin: {
+        left: 10,
+        right: 10,
+        vertical: 10,
+      },
+      effect: null,
+      alignment: 2,
+      slices: [
+        {
+          style: 'Default',
+          fragments: [],
+        },
+      ],
+    },
   ],
 };
 
@@ -327,4 +347,5 @@ Dialogue: 0,0:00:11.00,0:00:13.00,Default,,0,0,0,,{\\an9}Upper right
 Dialogue: 0,0:00:24.00,0:00:26.00,Default,,0,0,0,,Also {\\rAlt}switching to a different style {\\r}inline
 Dialogue: 0,0:00:26.00,0:00:28.00,Default,,0,0,0,,{\\an5\\pos(258,131)}Positioning... this line should be in an odd place
 Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0,0,0,,{\\p1}m 0 0 l 1 1
+Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0,0,0,,
 `;
