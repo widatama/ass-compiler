@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v0.2.0 2022-07-03
+
+### Changed
+
+- Added option to change default margin value for stringify and decompile
+- Added option to skip empty event for stringify and decompile
+- Added option to skip unused style for stringify and decompile
+
+### Fixed
+
+- decompile error if dialogue has no text
+
 ## v0.1.6 2022-06-19
 
 ### Fixed
