@@ -15,7 +15,7 @@ npm install ass-compiler
 
 ## Usage
 
-You can use `parse` or `compile` as your need.
+Use `parse` or `compile` as needed.
 
 ```js
 import { parse, stringify, compile, decompile } from 'ass-compiler';
@@ -28,14 +28,14 @@ const text = `
 
 // parse just turn ASS text into JSON
 const parsedASS = parse(text);
-const stringifiedText = stringify(parsedASS);
+const stringifiedText = stringify(parsedASS, options);
 
 // compile will get rid of invalid tags, merge duplicated tags, transform drawings, etc.
 const compiledASS = compile(text, options);
-const decompiledText = decompile(compiledASS);
+const decompiledText = decompile(compiledASS, options);
 ```
 
-### options
+### `compile` options
 
 ```js
 {
@@ -67,6 +67,124 @@ const decompiledText = decompile(compiledASS);
     Encoding: '1',
   },
 }
+```
+
+### `stringify` and `decompile` options
+
+```js
+{
+  defaultMargin: '0000',
+  skipEmptyEvent: false,
+  skipUnusedStyle: false,
+}
+```
+
+#### `defaultMargin`
+
+Default value: `0000`
+
+Default margin value for margins in event comments and dialogues.
+
+Based on the [spec](https://fileformats.fandom.com/wiki/SubStation_Alpha) it should be 4-digit long. But this adds up quite a bit to the subtitle file size and there is no problem with video players if this is only one digit. So override this to reduce subtitle file size.
+
+Sample input
+```
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,This is a test of the ASS format and some basic features in it.
+```
+
+Default output
+```
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,This is a test of the ASS format and some basic features in it.
+```
+
+Output with `defaultMargin = '0'`
+```
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,This is a test of the ASS format and some basic features in it.
+```
+
+#### `skipEmptyEvent`
+
+Default value: `false`
+
+Skip yielding events with empty text. Useful for cleaning up subtitle file.
+
+Sample input
+```
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,
+```
+
+Default output
+```
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,
+```
+
+Output with `skipEmptyEvent = true`
+```
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+```
+
+#### `skipUnusedStyle`
+
+Default value: `false`
+
+Skip yielding styles that are not used in any event. Useful for cleaning up subtitle file.
+
+Sample input
+```
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,0
+Style: Alt,Times New Roman,40,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,8,10,10,10,0
+Style: Unused,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,0
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,
+```
+
+Default output
+```
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,0
+Style: Alt,Times New Roman,40,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,8,10,10,10,0
+Style: Unused,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,0
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,
+```
+
+Output with `skipUnusedStyle = true`
+```
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,0
+Style: Alt,Times New Roman,40,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,8,10,10,10,0
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,
 ```
 
 For details of data structure, please use the [online viewer](https://ass.js.org/ass-compiler/).
