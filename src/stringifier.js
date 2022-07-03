@@ -75,8 +75,38 @@ export function stringifyEvent(event, defaultMargin = '0000') {
   ].join();
 }
 
-export function stringify({ info, styles, events }, options = { defaultMargin: '0000', skipEmptyEvent: false }) {
-  const { defaultMargin, skipEmptyEvent } = options;
+export function stringify({ info, styles, events }, options = { defaultMargin: '0000', skipEmptyEvent: false, skipUnusedStyle: false }) {
+  const { defaultMargin, skipEmptyEvent, skipUnusedStyle } = options;
+  const usedStyles = {};
+
+  const stringifiedEvents = []
+    .concat(...['Comment', 'Dialogue'].map((type) => (
+      events[type.toLowerCase()].flatMap((event) => {
+        if (skipEmptyEvent && event.Text.raw.length === 0) {
+          return [];
+        }
+
+        if (skipUnusedStyle) {
+          usedStyles[event.Style] = true;
+
+          event.Text.parsed.forEach((item) => {
+            item.tags.forEach((tag) => {
+              if (tag.r) {
+                usedStyles[tag.r] = true;
+              }
+            });
+          });
+        }
+
+        return {
+          start: event.Start,
+          end: event.End,
+          string: `${type}: ${stringifyEvent(event, defaultMargin)}`,
+        };
+      })
+    )))
+    .sort((a, b) => (a.start - b.start) || (a.end - b.end))
+    .map((x) => x.string);
 
   return [
     '[Script Info]',
@@ -84,26 +114,17 @@ export function stringify({ info, styles, events }, options = { defaultMargin: '
     '',
     '[V4+ Styles]',
     `Format: ${stylesFormat.join(', ')}`,
-    ...styles.style.map((style) => `Style: ${stylesFormat.map((fmt) => style[fmt]).join()}`),
+    ...styles.style.flatMap((style) => {
+      if (skipUnusedStyle && !(style.Name in usedStyles)) {
+        return [];
+      }
+
+      return `Style: ${stylesFormat.map((fmt) => style[fmt]).join()}`;
+    }),
     '',
     '[Events]',
     `Format: ${eventsFormat.join(', ')}`,
-    ...[]
-      .concat(...['Comment', 'Dialogue'].map((type) => (
-        events[type.toLowerCase()].flatMap((event) => {
-          if (skipEmptyEvent && event.Text.raw.length === 0) {
-            return [];
-          }
-
-          return {
-            start: event.Start,
-            end: event.End,
-            string: `${type}: ${stringifyEvent(event, defaultMargin)}`,
-          };
-        })
-      )))
-      .sort((a, b) => (a.start - b.start) || (a.end - b.end))
-      .map((x) => x.string),
+    ...stringifiedEvents,
     '',
   ].join('\n');
 }

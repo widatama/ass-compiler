@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { decompile, decompileDialogue, decompileDrawing, decompileTag } from '../src/decompiler.js';
-import { compiled, decompiled, decompiledSkipEmpty } from './fixtures/decompiler.js';
+import { compiled, decompiled, decompiledSkipEmpty, decompiledSkipUnused } from './fixtures/decompiler.js';
 
 describe('ASS decompiler', () => {
   it('should decompile ASS', () => {
@@ -9,6 +9,10 @@ describe('ASS decompiler', () => {
 
   it('should skip empty dialogue', () => {
     expect(decompile(compiled, { skipEmptyEvent: true })).to.equal(decompiledSkipEmpty);
+  });
+
+  it('should skip unused style', () => {
+    expect(decompile(compiled, { skipUnusedStyle: true })).to.equal(decompiledSkipUnused);
   });
 
   it('should decompile dialogue', () => {

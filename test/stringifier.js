@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { stringifyTime, stringifyEffect, stringifyEvent, stringifyTag, stringify } from '../src/stringifier.js';
-import { emptyDialogue, parsed, stringified } from './fixtures/stringifier.js';
+import { parsed, stringified, stringifiedSkipEmpty, stringifiedSkipUnused } from './fixtures/stringifier.js';
 
 describe('ASS stringifier', () => {
   it('should stringify time', () => {
@@ -57,7 +57,11 @@ describe('ASS stringifier', () => {
   });
 
   it('should skip empty events', () => {
-    expect(stringify(parsed, { skipEmptyEvent: true })).to.equal(emptyDialogue);
+    expect(stringify(parsed, { skipEmptyEvent: true })).to.equal(stringifiedSkipEmpty);
+  });
+
+  it('should skip empty events', () => {
+    expect(stringify(parsed, { skipUnusedStyle: true })).to.equal(stringifiedSkipUnused);
   });
 
   describe('tag stringifier', () => {

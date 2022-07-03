@@ -129,9 +129,26 @@ export function decompile(
     styles,
     dialogues,
   },
-  options = { defaultMargin: '0000', skipEmptyEvent: false },
+  options = { defaultMargin: '0000', skipEmptyEvent: false, skipUnusedStyle: false },
 ) {
-  const { defaultMargin, skipEmptyEvent } = options;
+  const { defaultMargin, skipEmptyEvent, skipUnusedStyle } = options;
+  const usedStyles = {};
+
+  const decompiledDialogues = dialogues
+    .sort((x, y) => x.start - y.start || x.end - y.end)
+    .flatMap((dia) => {
+      if (skipEmptyEvent && dia.slices.length === 1 && dia.slices[0].fragments.length === 0) {
+        return [];
+      }
+
+      if (skipUnusedStyle) {
+        dia.slices.forEach((slice) => {
+          usedStyles[slice.style] = true;
+        });
+      }
+
+      return decompileDialogue(dia, styles[dia.style].style, defaultMargin);
+    });
 
   return [
     '[Script Info]',
@@ -143,19 +160,17 @@ export function decompile(
     '',
     '[V4+ Styles]',
     `Format: ${stylesFormat.join(', ')}`,
-    ...Object.keys(styles).map((name) => decompileStyle(styles[name])),
+    ...Object.keys(styles).flatMap((name) => {
+      if (skipUnusedStyle && !(name in usedStyles)) {
+        return [];
+      }
+
+      return decompileStyle(styles[name]);
+    }),
     '',
     '[Events]',
     `Format: ${eventsFormat.join(', ')}`,
-    ...dialogues
-      .sort((x, y) => x.start - y.start || x.end - y.end)
-      .flatMap((dia) => {
-        if (skipEmptyEvent && dia.slices.length === 1 && dia.slices[0].fragments.length === 0) {
-          return [];
-        }
-
-        return decompileDialogue(dia, styles[dia.style].style, defaultMargin);
-      }),
+    ...decompiledDialogues,
     '',
   ].join('\n');
 }
