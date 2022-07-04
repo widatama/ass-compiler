@@ -92,13 +92,19 @@ export interface ParsedASS {
     events: ParsedASSEvents;
 }
 
+export type stringifyOptions = {
+  defaultMargin: string;
+  skipEmptyEvent: boolean;
+  skipUnusedStyle: boolean;
+}
+
 /**
  * Parse ASS string.
  * @param text
  */
 export function parse(text: string): ParsedASS;
 
-export function stringify(obj: ParsedASS): string;
+export function stringify(obj: ParsedASS, options: stringifyOptions): string;
 
 export interface CompiledASSStyleTag {
     fn: string;
@@ -252,4 +258,6 @@ export interface CompiledASS {
 
 export function compile(text: string, options: object): CompiledASS;
 
-export function decompile(obj: CompiledASS): string;
+export type decompileOptions = stringifyOptions;
+
+export function decompile(obj: CompiledASS, options: decompileOptions): string;

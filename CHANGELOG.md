@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.1 2022-07-04
+
+### Added
+
+- Typings for stringify and decompile options
+
 ## v0.2.0 2022-07-03
 
 ### Changed
