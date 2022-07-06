@@ -62,18 +62,18 @@ export function decompileTag(tag) {
   }).join('');
 }
 
-export function decompileSlice(slice) {
+export function decompileSlice(slice, processText = (inpText) => inpText) {
   if (slice.fragments.length === 0) {
     return '';
   }
 
   return slice.fragments.map(({ tag, text, drawing }) => {
     const tagText = decompileTag(tag);
-    return `${tagText ? `{${tagText}}` : ''}${drawing ? decompileDrawing(drawing) : text}`;
+    return `${tagText ? `{${tagText}}` : ''}${drawing ? decompileDrawing(drawing) : processText(text)}`;
   }).join('');
 }
 
-export function decompileText(dia, style) {
+export function decompileText(dia, style, processText = (inpText) => inpText) {
   return dia.slices
     .map((slice, idx) => {
       const sliceCopy = JSON.parse(JSON.stringify(slice));
@@ -97,7 +97,7 @@ export function decompileText(dia, style) {
       }
       return sliceCopy;
     })
-    .map(decompileSlice)
+    .map((slice) => decompileSlice(slice, processText))
     .join('');
 }
 
@@ -105,7 +105,9 @@ function getMargin(margin, styleMargin, defaultMargin = '0000') {
   return margin === styleMargin ? defaultMargin : margin;
 }
 
-export function decompileDialogue(dia, style, defaultMargin = '0000') {
+export function decompileDialogue(dia, style, options = { defaultMargin: '0000', processText: (inpText) => inpText }) {
+  const { defaultMargin, processText } = options;
+
   return `Dialogue: ${[
     dia.layer,
     stringifyTime(dia.start),
@@ -116,7 +118,7 @@ export function decompileDialogue(dia, style, defaultMargin = '0000') {
     getMargin(dia.margin.right, style.MarginR, defaultMargin),
     getMargin(dia.margin.vertical, style.MarginV, defaultMargin),
     stringifyEffect(dia.effect),
-    decompileText(dia, style),
+    decompileText(dia, style, processText),
   ].join()}`;
 }
 
@@ -131,7 +133,7 @@ export function decompile(
   },
   options = { defaultMargin: '0000', skipEmptyEvent: false, skipUnusedStyle: false },
 ) {
-  const { defaultMargin, skipEmptyEvent, skipUnusedStyle } = options;
+  const { defaultMargin, processText, skipEmptyEvent, skipUnusedStyle } = options;
   const usedStyles = {};
 
   const decompiledDialogues = dialogues
@@ -147,7 +149,7 @@ export function decompile(
         });
       }
 
-      return decompileDialogue(dia, styles[dia.style].style, defaultMargin);
+      return decompileDialogue(dia, styles[dia.style].style, { defaultMargin, processText });
     });
 
   return [

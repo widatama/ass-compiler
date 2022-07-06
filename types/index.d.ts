@@ -94,6 +94,7 @@ export interface ParsedASS {
 
 export type stringifyOptions = {
   defaultMargin: string;
+  processText: (inpText: string) => string;
   skipEmptyEvent: boolean;
   skipUnusedStyle: boolean;
 }

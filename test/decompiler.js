@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { decompile, decompileDialogue, decompileDrawing, decompileTag } from '../src/decompiler.js';
+import { decompile, decompileDialogue, decompileDrawing, decompileSlice, decompileTag } from '../src/decompiler.js';
 import { compiled, decompiled, decompiledSkipEmpty, decompiledSkipUnused } from './fixtures/decompiler.js';
 
 describe('ASS decompiler', () => {
@@ -45,7 +45,23 @@ describe('ASS decompiler', () => {
     const { style } = compiled.styles.Default;
 
     expect(decompileDialogue(dialogue, style)).to.equal('Dialogue: 0,0:00:00.00,0:00:04.00,Default,,0000,0000,0000,,This is a test of the ASS format and some basic features in it.');
-    expect(decompileDialogue(dialogue, style, '0')).to.equal('Dialogue: 0,0:00:00.00,0:00:04.00,Default,,0,0,0,,This is a test of the ASS format and some basic features in it.');
+    expect(decompileDialogue(dialogue, style, { defaultMargin: '0' })).to.equal('Dialogue: 0,0:00:00.00,0:00:04.00,Default,,0,0,0,,This is a test of the ASS format and some basic features in it.');
+  });
+
+  it('should decompile slice', () => {
+    const slice = {
+      style: 'Default',
+      fragments: [
+        {
+          tag: {},
+          text: 'This is a test of the ASS format and some basic features in it.',
+          drawing: null,
+        },
+      ],
+    };
+
+    expect(decompileSlice(slice)).to.equal('This is a test of the ASS format and some basic features in it.');
+    expect(decompileSlice(slice, (inpText) => inpText.replace(/h/g, 'H'))).to.equal('THis is a test of tHe ASS format and some basic features in it.');
   });
 
   it('should decompile drawing', () => {

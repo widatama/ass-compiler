@@ -52,15 +52,15 @@ export function stringifyTag(tag) {
   return `\\${key}${_}`;
 }
 
-export function stringifyText(Text) {
+export function stringifyText(Text, processText = (inpText) => inpText) {
   return Text.parsed.map(({ tags, text, drawing }) => {
     const tagText = tags.map(stringifyTag).join('');
-    const content = drawing.length ? stringifyDrawing(drawing) : text;
+    const content = drawing.length ? stringifyDrawing(drawing) : processText(text);
     return `${tagText ? `{${tagText}}` : ''}${content}`;
   }).join('');
 }
 
-export function stringifyEvent(event, defaultMargin = '0000') {
+export function stringifyEvent(event, defaultMargin = '0000', processText = (inpText) => inpText) {
   return [
     event.Layer,
     stringifyTime(event.Start),
@@ -71,12 +71,17 @@ export function stringifyEvent(event, defaultMargin = '0000') {
     event.MarginR || defaultMargin,
     event.MarginV || defaultMargin,
     stringifyEffect(event.Effect),
-    stringifyText(event.Text),
+    stringifyText(event.Text, processText),
   ].join();
 }
 
-export function stringify({ info, styles, events }, options = { defaultMargin: '0000', skipEmptyEvent: false, skipUnusedStyle: false }) {
-  const { defaultMargin, skipEmptyEvent, skipUnusedStyle } = options;
+export function stringify({ info, styles, events }, options = {
+  defaultMargin: '0000',
+  processText: (inpText) => inpText,
+  skipEmptyEvent: false,
+  skipUnusedStyle: false,
+}) {
+  const { defaultMargin, processText, skipEmptyEvent, skipUnusedStyle } = options;
   const usedStyles = {};
 
   const stringifiedEvents = []
@@ -101,7 +106,7 @@ export function stringify({ info, styles, events }, options = { defaultMargin: '
         return {
           start: event.Start,
           end: event.End,
-          string: `${type}: ${stringifyEvent(event, defaultMargin)}`,
+          string: `${type}: ${stringifyEvent(event, defaultMargin, processText)}`,
         };
       })
     )))
