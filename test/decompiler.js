@@ -1,10 +1,20 @@
 import { expect } from 'chai';
 import { decompile, decompileDialogue, decompileDrawing, decompileSlice, decompileTag } from '../src/decompiler.js';
-import { compiled, decompiled, decompiledSkipEmpty, decompiledSkipUnused } from './fixtures/decompiler.js';
+import { compiled, decompiled, decompiledProcessStyle, decompiledSkipEmpty, decompiledSkipUnused } from './fixtures/decompiler.js';
 
 describe('ASS decompiler', () => {
   it('should decompile ASS', () => {
     expect(decompile(compiled)).to.equal(decompiled);
+  });
+
+  it('should process style', () => {
+    const processStyle = (inpStyle) => {
+      const result = { ...inpStyle };
+      result.Fontname = 'Open Sans';
+      return result;
+    };
+
+    expect(decompile(compiled, { processStyle })).to.equal(decompiledProcessStyle);
   });
 
   it('should skip empty dialogue', () => {

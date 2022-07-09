@@ -1,4 +1,4 @@
-import { stylesFormat, eventsFormat } from './utils.js';
+import { defaultOptions, stylesFormat, eventsFormat } from './utils.js';
 
 export function stringifyInfo(info) {
   return Object.keys(info).map((key) => `${key}: ${info[key]}`).join('\n');
@@ -75,13 +75,15 @@ export function stringifyEvent(event, defaultMargin = '0000', processText = (inp
   ].join();
 }
 
-export function stringify({ info, styles, events }, options = {
-  defaultMargin: '0000',
-  processText: (inpText) => inpText,
-  skipEmptyEvent: false,
-  skipUnusedStyle: false,
-}) {
-  const { defaultMargin, processText, skipEmptyEvent, skipUnusedStyle } = options;
+export function stringify({ info, styles, events }, inpOptions) {
+  const options = Object.assign({}, defaultOptions);
+  const {
+    defaultMargin,
+    processStyle,
+    processText,
+    skipEmptyEvent,
+    skipUnusedStyle,
+  } = Object.assign(options, inpOptions);
   const usedStyles = {};
 
   const stringifiedEvents = []
@@ -124,7 +126,9 @@ export function stringify({ info, styles, events }, options = {
         return [];
       }
 
-      return `Style: ${stylesFormat.map((fmt) => style[fmt]).join()}`;
+      const processedStyle = processStyle(style);
+
+      return `Style: ${stylesFormat.map((fmt) => processedStyle[fmt]).join()}`;
     }),
     '',
     '[Events]',

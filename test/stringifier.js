@@ -1,6 +1,13 @@
 import { expect } from 'chai';
 import { stringify, stringifyEffect, stringifyEvent, stringifyTag, stringifyTime, stringifyText } from '../src/stringifier.js';
-import { parsed, stringified, stringifiedProcessText, stringifiedSkipEmpty, stringifiedSkipUnused } from './fixtures/stringifier.js';
+import {
+  parsed,
+  stringified,
+  stringifiedProcessStyle,
+  stringifiedProcessText,
+  stringifiedSkipEmpty,
+  stringifiedSkipUnused,
+} from './fixtures/stringifier.js';
 
 describe('ASS stringifier', () => {
   it('should stringify time', () => {
@@ -67,16 +74,28 @@ describe('ASS stringifier', () => {
     expect(stringify(parsed)).to.equal(stringified);
   });
 
+  it('should process style', () => {
+    const processStyle = (inpStyle) => {
+      const result = { ...inpStyle };
+      result.Fontname = 'Open Sans';
+      return result;
+    };
+
+    expect(stringify(parsed, { processStyle })).to.equal(stringifiedProcessStyle);
+  });
+
+  it('should process text', () => {
+    const processText = (inpText) => inpText.replace(/s/g, 'S');
+
+    expect(stringify(parsed, { processText })).to.equal(stringifiedProcessText);
+  });
+
   it('should skip empty events', () => {
     expect(stringify(parsed, { skipEmptyEvent: true })).to.equal(stringifiedSkipEmpty);
   });
 
-  it('should skip empty events', () => {
+  it('should skip unused styles', () => {
     expect(stringify(parsed, { skipUnusedStyle: true })).to.equal(stringifiedSkipUnused);
-  });
-
-  it('should process text', () => {
-    expect(stringify(parsed, { processText: (inpText) => inpText.replace(/s/g, 'S') })).to.equal(stringifiedProcessText);
   });
 
   describe('tag stringifier', () => {

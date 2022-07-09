@@ -1,5 +1,5 @@
 import { stringifyInfo, stringifyTime, stringifyEffect } from './stringifier.js';
-import { assign, stylesFormat, eventsFormat } from './utils.js';
+import { assign, defaultOptions, stylesFormat, eventsFormat } from './utils.js';
 
 export function decompileStyle({ style, tag }) {
   const obj = assign({}, style, {
@@ -131,9 +131,16 @@ export function decompile(
     styles,
     dialogues,
   },
-  options = { defaultMargin: '0000', skipEmptyEvent: false, skipUnusedStyle: false },
+  inpOptions,
 ) {
-  const { defaultMargin, processText, skipEmptyEvent, skipUnusedStyle } = options;
+  const options = Object.assign({}, defaultOptions);
+  const {
+    defaultMargin,
+    processStyle,
+    processText,
+    skipEmptyEvent,
+    skipUnusedStyle,
+  } = Object.assign(options, inpOptions);
   const usedStyles = {};
 
   const decompiledDialogues = dialogues
@@ -167,7 +174,11 @@ export function decompile(
         return [];
       }
 
-      return decompileStyle(styles[name]);
+      const processedStyle = Object.assign({}, styles[name]);
+
+      processedStyle.style = processStyle(processedStyle.style);
+
+      return decompileStyle(processedStyle);
     }),
     '',
     '[Events]',

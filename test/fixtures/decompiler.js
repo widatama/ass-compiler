@@ -403,6 +403,32 @@ Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0000,0000,0000,,{\\p1}m 0 0 l 1 1
 Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0000,0000,0000,,
 `;
 
+export const decompiledProcessStyle = `[Script Info]
+Title: Default Aegisub file
+ScriptType: v4.00+
+WrapStyle: 0
+PlayResX: 640
+PlayResY: 480
+ScaledBorderAndShadow: yes
+Collisions: Normal
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Open Sans,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,0
+Style: Alt,Open Sans,40,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,8,10,10,10,0
+Style: Unused,Open Sans,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,0
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:11.00,0:00:13.00,Default,,0000,0000,0000,,{\\an9}Upper right
+Dialogue: 0,0:00:24.00,0:00:26.00,Default,,0000,0000,0000,,Also {\\rAlt}switching to a different style {\\r}inline
+Dialogue: 0,0:00:26.00,0:00:28.00,Default,,0000,0000,0000,,{\\an5\\pos(258,131)}Positioning... this line should be in an odd place
+Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0000,0000,0000,,{\\p1}m 0 0 l 1 1
+Dialogue: 0,0:00:38.00,0:00:40.00,Default,,0000,0000,0000,,
+`;
+
 export const decompiledSkipEmpty = `[Script Info]
 Title: Default Aegisub file
 ScriptType: v4.00+
