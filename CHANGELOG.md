@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.3.0 2022-07-09
+
+### Added
+
+- Added option to process event texts for stringify and decompile
+
 ## v0.2.1 2022-07-04
 
 ### Added
@@ -8,7 +14,7 @@
 
 ## v0.2.0 2022-07-03
 
-### Changed
+### Added
 
 - Added option to change default margin value for stringify and decompile
 - Added option to skip empty event for stringify and decompile

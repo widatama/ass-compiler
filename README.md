@@ -74,6 +74,7 @@ const decompiledText = decompile(compiledASS, options);
 ```js
 {
   defaultMargin: '0000',
+  processText: (inpText) => inpText,
   skipEmptyEvent: false,
   skipUnusedStyle: false,
 }
@@ -109,6 +110,36 @@ Output with `defaultMargin = '0'`
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
 Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,This is a test of the ASS format and some basic features in it.
+```
+
+### `processText`
+
+Default value: `(inpText) => inpText`
+
+Function for processing event texts. Useful for things like applying smart quotes with smartypants.
+
+Sample input
+```
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,This is a test of the ASS format and some basic features in it.
+```
+
+Default output
+```
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,This is a test of the ASS format and some basic features in it.
+```
+
+Output with `(inpText) => inpText.toUppercase()`
+```
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,THIS IS A TEST OF THE ASS FORMAT AND SOME BASIC FEATURES IN IT.
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,THIS IS A TEST OF THE ASS FORMAT AND SOME BASIC FEATURES IN IT.
 ```
 
 #### `skipEmptyEvent`
@@ -184,7 +215,7 @@ Style: Alt,Times New Roman,40,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS format and some basic features in it.
-Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,
 ```
 
 For details of data structure, please use the [online viewer](https://ass.js.org/ass-compiler/).
