@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.4.0 2022-07-10
+
+### Added
+
+- Added option to process styles for stringify and decompile
+
 ## v0.3.0 2022-07-09
 
 ### Added

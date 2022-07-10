@@ -112,6 +112,33 @@ Dialogue: 0,0:00:00.00,0:00:04.00,Default,,1,2,3,,This is a test of the ASS form
 Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,This is a test of the ASS format and some basic features in it.
 ```
 
+### `processStyle`
+
+Default value: `(inpText) => inpText`
+
+Function for processing style. Can be used for updating styles.
+
+Sample input
+```
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,0
+```
+
+Default output
+```
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,0
+```
+
+Output with `(inpStyle) => { inpStyle.Fontname = 'Open Sans'; return inpStyle; }`
+```
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Open Sans,20,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,2,2,10,10,10,0
+```
+
 ### `processText`
 
 Default value: `(inpText) => inpText`
