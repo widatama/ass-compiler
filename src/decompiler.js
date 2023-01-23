@@ -75,6 +75,7 @@ export function decompileSlice(slice, processText = (inpText) => inpText) {
 
 export function decompileText(dia, style, processText = (inpText) => inpText) {
   return dia.slices
+    .filter((slice) => slice.fragments.length)
     .map((slice, idx) => {
       const sliceCopy = JSON.parse(JSON.stringify(slice));
 
