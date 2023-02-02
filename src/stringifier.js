@@ -1,4 +1,4 @@
-import { defaultOptions, stylesFormat, eventsFormat } from './utils.js';
+import { defaultOptions } from './utils.js';
 
 export function stringifyInfo(info) {
   return Object.keys(info).map((key) => `${key}: ${info[key]}`).join('\n');
@@ -60,19 +60,24 @@ export function stringifyText(Text, processText = (inpText) => inpText) {
   }).join('');
 }
 
-export function stringifyEvent(event, defaultMargin = '0000', processText = (inpText) => inpText) {
-  return [
-    event.Layer,
-    stringifyTime(event.Start),
-    stringifyTime(event.End),
-    event.Style,
-    event.Name,
-    event.MarginL || defaultMargin,
-    event.MarginR || defaultMargin,
-    event.MarginV || defaultMargin,
-    stringifyEffect(event.Effect),
-    stringifyText(event.Text, processText),
-  ].join();
+export function stringifyEvent(event, format, defaultMargin = '0000', processText = (inpText) => inpText) {
+  return format.map((fmt) => {
+    switch (fmt) {
+      case 'Start':
+      case 'End':
+        return stringifyTime(event[fmt]);
+      case 'MarginL':
+      case 'MarginR':
+      case 'MarginV':
+        return event[fmt] || defaultMargin;
+      case 'Effect':
+        return stringifyEffect(event[fmt]);
+      case 'Text':
+        return stringifyText(event.Text, processText);
+      default:
+        return event[fmt];
+    }
+  }).join();
 }
 
 export function stringify({ info, styles, events }, inpOptions) {
@@ -88,15 +93,15 @@ export function stringify({ info, styles, events }, inpOptions) {
 
   const stringifiedEvents = []
     .concat(...['Comment', 'Dialogue'].map((type) => (
-      events[type.toLowerCase()].flatMap((event) => {
-        if (skipEmptyEvent && event.Text.raw.length === 0) {
+      events[type.toLowerCase()].flatMap((dia) => {
+        if (skipEmptyEvent && dia.Text.raw.length === 0) {
           return [];
         }
 
         if (skipUnusedStyle) {
-          usedStyles[event.Style] = true;
+          usedStyles[dia.Style] = true;
 
-          event.Text.parsed.forEach((item) => {
+          dia.Text.parsed.forEach((item) => {
             item.tags.forEach((tag) => {
               if (tag.r) {
                 usedStyles[tag.r] = true;
@@ -106,9 +111,9 @@ export function stringify({ info, styles, events }, inpOptions) {
         }
 
         return {
-          start: event.Start,
-          end: event.End,
-          string: `${type}: ${stringifyEvent(event, defaultMargin, processText)}`,
+          start: dia.Start,
+          end: dia.End,
+          string: `${type}: ${stringifyEvent(dia, events.format, defaultMargin, processText)}`,
         };
       })
     )))
@@ -120,7 +125,7 @@ export function stringify({ info, styles, events }, inpOptions) {
     stringifyInfo(info),
     '',
     '[V4+ Styles]',
-    `Format: ${stylesFormat.join(', ')}`,
+    `Format: ${styles.format.join(', ')}`,
     ...styles.style.flatMap((style) => {
       if (skipUnusedStyle && !(style.Name in usedStyles)) {
         return [];
@@ -128,11 +133,11 @@ export function stringify({ info, styles, events }, inpOptions) {
 
       const processedStyle = processStyle(style);
 
-      return `Style: ${stylesFormat.map((fmt) => processedStyle[fmt]).join()}`;
+      return `Style: ${styles.format.map((fmt) => processedStyle[fmt]).join()}`;
     }),
     '',
     '[Events]',
-    `Format: ${eventsFormat.join(', ')}`,
+    `Format: ${events.format.join(', ')}`,
     ...stringifiedEvents,
     '',
   ].join('\n');

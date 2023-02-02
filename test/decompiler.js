@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { decompile, decompileDialogue, decompileDrawing, decompileSlice, decompileTag } from '../src/decompiler.js';
-import { compiled, decompiled, decompiledProcessStyle, decompiledSkipEmpty, decompiledSkipUnused } from './fixtures/decompiler.js';
+import { compiled, compiled2, decompiled, decompiled2, decompiledProcessStyle, decompiledSkipEmpty, decompiledSkipUnused } from './fixtures/decompiler.js';
 
 describe('ASS decompiler', () => {
   it('should decompile ASS', () => {
@@ -72,6 +72,10 @@ describe('ASS decompiler', () => {
 
     expect(decompileSlice(slice)).to.equal('This is a test of the ASS format and some basic features in it.');
     expect(decompileSlice(slice, (inpText) => inpText.replace(/h/g, 'H'))).to.equal('THis is a test of tHe ASS format and some basic features in it.');
+  });
+
+  it('should add default value', () => {
+    expect(decompile(compiled2)).to.equal(decompiled2);
   });
 
   it('should decompile drawing', () => {

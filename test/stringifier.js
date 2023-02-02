@@ -1,8 +1,11 @@
 import { expect } from 'chai';
 import { stringify, stringifyEffect, stringifyEvent, stringifyTag, stringifyTime, stringifyText } from '../src/stringifier.js';
+import { eventsFormat } from '../src/utils.js';
 import {
   parsed,
+  parsed2,
   stringified,
+  stringified2,
   stringifiedProcessStyle,
   stringifiedProcessText,
   stringifiedSkipEmpty,
@@ -55,8 +58,9 @@ describe('ASS stringifier', () => {
         parsed: [{ tags: [], text: 'text', drawing: [] }],
       },
     };
-    expect(stringifyEvent(event)).to.equal('0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,text');
-    expect(stringifyEvent(event, '0')).to.equal('0,0:00:00.00,0:00:05.00,Default,,0,0,0,,text');
+
+    expect(stringifyEvent(event, eventsFormat)).to.equal('0,0:00:00.00,0:00:05.00,Default,,0000,0000,0000,,text');
+    expect(stringifyEvent(event, eventsFormat, '0')).to.equal('0,0:00:00.00,0:00:05.00,Default,,0,0,0,,text');
   });
 
   it('should stringify text', () => {
@@ -96,6 +100,10 @@ describe('ASS stringifier', () => {
 
   it('should skip unused styles', () => {
     expect(stringify(parsed, { skipUnusedStyle: true })).to.equal(stringifiedSkipUnused);
+  });
+
+  it('should stringify style format from source', () => {
+    expect(stringify(parsed2)).to.equal(stringified2);
   });
 
   describe('tag stringifier', () => {
