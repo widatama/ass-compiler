@@ -15,6 +15,7 @@ import {
 describe('ASS stringifier', () => {
   it('should stringify time', () => {
     expect(stringifyTime(0)).to.equal('0:00:00.00');
+    expect(stringifyTime(15.999)).to.equal('0:00:16.00');
     expect(stringifyTime(5025.67)).to.equal('1:23:45.67');
   });
 
