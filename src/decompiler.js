@@ -1,13 +1,14 @@
 import { stringifyInfo, stringifyTime, stringifyEffect } from './stringifier.js';
-import { assign, defaultOptions, stylesFormat, eventsFormat } from './utils.js';
+import { defaultOptions, stylesFormat, eventsFormat } from './utils.js';
 
 export function decompileStyle({ style, tag }) {
-  const obj = assign({}, style, {
+  const obj = {
+    ...style,
     PrimaryColour: `&H${tag.a1}${tag.c1}`,
     SecondaryColour: `&H${tag.a2}${tag.c2}`,
     OutlineColour: `&H${tag.a3}${tag.c3}`,
     BackColour: `&H${tag.a4}${tag.c4}`,
-  });
+  };
   return `Style: ${stylesFormat.map((fmt) => obj[fmt]).join()}`;
 }
 
@@ -137,7 +138,7 @@ export function decompile(
   },
   inpOptions,
 ) {
-  const options = Object.assign({}, defaultOptions);
+  const options = { ...defaultOptions };
   const {
     defaultMargin,
     processStyle,
@@ -165,11 +166,12 @@ export function decompile(
 
   return [
     '[Script Info]',
-    stringifyInfo(assign({}, info, {
+    stringifyInfo({
+      ...info,
       PlayResX: width,
       PlayResY: height,
       Collisions: collisions,
-    })),
+    }),
     '',
     '[V4+ Styles]',
     `Format: ${stylesFormat.join(', ')}`,
@@ -178,7 +180,7 @@ export function decompile(
         return [];
       }
 
-      const processedStyle = Object.assign({}, styles[name]);
+      const processedStyle = { ...styles[name] };
 
       processedStyle.style = processStyle(processedStyle.style);
 

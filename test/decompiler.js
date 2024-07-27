@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 import { decompile, decompileDialogue, decompileDrawing, decompileSlice, decompileTag, decompileText } from '../src/decompiler.js';
 import { compiled, compiled2, decompiled, decompiled2, decompiledProcessStyle, decompiledSkipEmpty, decompiledSkipUnused } from './fixtures/decompiler.js';
 

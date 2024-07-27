@@ -9,7 +9,9 @@ export default {
     name: 'assCompiler',
   },
   plugins: [
-    buble(),
+    buble({
+      objectAssign: 'Object.assign',
+    }),
     replace({
       'Number.isNaN': 'isNaN',
     }),

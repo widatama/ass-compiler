@@ -85,7 +85,7 @@ export function stringifyEvent(event, format, defaultMargin = '0000', processTex
 }
 
 export function stringify({ info, styles, events }, inpOptions) {
-  const options = Object.assign({}, defaultOptions);
+  const options = { ...defaultOptions };
   const {
     defaultMargin,
     processStyle,

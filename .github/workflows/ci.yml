@@ -6,6 +6,7 @@ jobs:
   test-and-build:
     runs-on: ubuntu-latest
     steps:
+<<<<<<< HEAD
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
@@ -34,3 +35,42 @@ jobs:
       - run: npm publish
         env:
           GH_PKG_READ_WRITE: ${{ secrets.GITHUB_TOKEN }}
+||||||| parent of 6ed2cc4 (chore: use Vitest)
+    - uses: actions/checkout@master
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Install Dependencies
+      run: npm i
+    - name: Build
+      run: npm run build
+    - name: Test
+      run: npm test
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./coverage/lcov.info
+      if: github.event_name == 'push'
+      continue-on-error: true
+=======
+    - uses: actions/checkout@main
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+    - name: Install Dependencies
+      run: npm i
+    - name: Build
+      run: npm run build
+    - name: Test
+      run: npm run cover
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./coverage/clover.xml
+      if: github.event_name == 'push'
+      continue-on-error: true
+>>>>>>> 6ed2cc4 (chore: use Vitest)

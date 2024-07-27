@@ -1,5 +1,4 @@
 import { compileText } from './text.js';
-import { assign } from '../utils.js';
 
 export function compileDialogues({ styles, dialogues }) {
   let minLayer = Infinity;
@@ -22,7 +21,7 @@ export function compileDialogues({ styles, dialogues }) {
     });
     const alignment = compiledText.alignment || stl.Alignment;
     minLayer = Math.min(minLayer, dia.Layer);
-    results.push(assign({
+    results.push({
       layer: dia.Layer,
       start: dia.Start,
       end: dia.End,
@@ -35,7 +34,9 @@ export function compileDialogues({ styles, dialogues }) {
         vertical: dia.MarginV || stl.MarginV,
       },
       effect: dia.Effect,
-    }, compiledText, { alignment }));
+      ...compiledText,
+      alignment,
+    });
   }
   for (let i = 0; i < results.length; i++) {
     results[i].layer -= minLayer;

@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 import { stringify, stringifyEffect, stringifyEvent, stringifyTag, stringifyTime, stringifyText } from '../src/stringifier.js';
 import { eventsFormat } from '../src/utils.js';
 import {
