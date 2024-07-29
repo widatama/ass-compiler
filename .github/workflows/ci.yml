@@ -6,15 +6,14 @@ jobs:
   test-and-build:
     runs-on: ubuntu-latest
     steps:
-<<<<<<< HEAD
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 22
       - run: npm ci
       - run: npm run cover
       - run: npm run build
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: build
           path: dist
@@ -24,53 +23,14 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
-      - uses: actions/download-artifact@v3
+          node-version: 22
+      - uses: actions/download-artifact@v4
         with:
           name: build
           path: dist
       - run: npm publish
         env:
           GH_PKG_READ_WRITE: ${{ secrets.GITHUB_TOKEN }}
-||||||| parent of 6ed2cc4 (chore: use Vitest)
-    - uses: actions/checkout@master
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - name: Install Dependencies
-      run: npm i
-    - name: Build
-      run: npm run build
-    - name: Test
-      run: npm test
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage/lcov.info
-      if: github.event_name == 'push'
-      continue-on-error: true
-=======
-    - uses: actions/checkout@main
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 22
-    - name: Install Dependencies
-      run: npm i
-    - name: Build
-      run: npm run build
-    - name: Test
-      run: npm run cover
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage/clover.xml
-      if: github.event_name == 'push'
-      continue-on-error: true
->>>>>>> 6ed2cc4 (chore: use Vitest)
