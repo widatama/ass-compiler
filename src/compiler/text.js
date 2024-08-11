@@ -21,6 +21,7 @@ function inheritTag(pTag) {
 
 export function compileText({ styles, style, parsed, start, end }) {
   let alignment;
+  let q = { q: styles[style].tag.q };
   let pos;
   let org;
   let move;
@@ -44,6 +45,7 @@ export function compileText({ styles, style, parsed, start, end }) {
     for (let j = 0; j < tags.length; j++) {
       const tag = tags[j];
       alignment = alignment || a2an[tag.a || 0] || tag.an;
+      q = compileTag(tag, 'q') || q;
       pos = pos || compileTag(tag, 'pos');
       org = org || compileTag(tag, 'org');
       move = move || compileTag(tag, 'move');
@@ -80,5 +82,5 @@ export function compileText({ styles, style, parsed, start, end }) {
   }
   slices.push(slice);
 
-  return { alignment, slices, ...pos, ...org, ...move, ...fade, ...clip };
+  return { alignment, slices, ...q, ...pos, ...org, ...move, ...fade, ...clip };
 }

@@ -136,6 +136,7 @@ export interface CompiledASSStyleTag {
     xshad: number;
     yshad: number;
     fe: number;
+    // TODO: [breaking change] delete `q`
     q: 0 | 1 | 2 | 3;
 }
 
@@ -209,6 +210,7 @@ export interface Dialogue {
     }
     effect?: EffectBanner | EffectScroll | EffectUnknown;
     alignment: number;
+    q: 0 | 1 | 2 | 3;
     slices: DialogueSlice[];
     pos?: {
         x: number;
@@ -258,6 +260,7 @@ export interface CompiledASS {
     width: number;
     height: number;
     collisions: 'Normal' | 'Reverse';
+    wrapStyle: 0 | 1 | 2 | 3;
     styles: { [styleName: string]: CompiledASSStyle };
     dialogues: Dialogue[];
 }
