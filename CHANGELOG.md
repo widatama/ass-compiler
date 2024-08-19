@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## v0.4.0 2024-08-19
+
+### Added
+
+- ESM build
+- Treat \q as global tag
+
+### Fixed
+
+- Parse \1a5 as alpha 05
+- Ignore uppercase tags
+- Ignore empty dialogues when decompiling
+- Allow ignoring fields in Format
+- Handle non-standard style and event format
+- Handle non-standard effects
+- Fix type of compiledTag.t.tag
+- Put \r tags before other tags
+- Fix rounding issue with timestamps like X.999
+- Compile \fsp in \t
+
 ## v0.4.0 2022-07-10
 
 ### Added
