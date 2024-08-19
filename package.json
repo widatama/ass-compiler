@@ -1,6 +1,6 @@
 {
   "name": "@widatama/ass-compiler",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "type": "module",
   "description": "Parses and compiles ASS subtitle format to easy-to-use data structure.",
   "main": "dist/esm/ass-compiler.js",
