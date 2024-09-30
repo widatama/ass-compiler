@@ -43,14 +43,14 @@
   },
   "homepage": "https://ass.js.org/ass-compiler/",
   "devDependencies": {
-    "@vitest/coverage-v8": "^2.0.5",
+    "@vitest/coverage-v8": "^2.1.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "npm:eslint-plugin-i@^2.29.1",
-    "rollup": "^4.21.2",
+    "rollup": "^4.22.5",
     "rollup-plugin-buble": "^0.19.8",
     "rollup-plugin-replace": "^2.2.0",
     "uglify-js": "^3.19.3",
-    "vitest": "^2.0.5"
+    "vitest": "^2.1.1"
   }
 }

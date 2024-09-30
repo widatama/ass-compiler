@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## v0.4.0 2024-08-19
+## v0.5.1 2024-09-30
+
+- Update vulnerable dependencies
+
+## v0.5.0 2024-08-19
 
 ### Added
 
