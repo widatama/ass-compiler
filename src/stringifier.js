@@ -1,7 +1,10 @@
 import { defaultOptions } from './utils.js';
 
 export function stringifyInfo(info) {
-  return Object.keys(info).map((key) => `${key}: ${info[key]}`).join('\n');
+  return Object.keys(info)
+    .filter((key) => info[key] !== null)
+    .map((key) => `${key}: ${info[key]}`)
+    .join('\n');
 }
 
 function pad00(n) {
