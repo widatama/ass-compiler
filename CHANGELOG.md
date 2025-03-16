@@ -1,6 +1,20 @@
 # CHANGELOG
 
+## v0.6.0 2025-03-177
+
+### Added
+
+- Add `defaultInfo` option for `compile` function
+
+### Fixed
+
+- Mismatched brackets
+- When there are multiple `\pos` and `\move` tags, only the first should work
+- Update dependencies
+
 ## v0.5.1 2024-09-30
+
+### Fixed
 
 - Update vulnerable dependencies
 
