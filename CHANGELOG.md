@@ -1,6 +1,12 @@
 # CHANGELOG
 
-## v0.6.0 2025-03-177
+## v0.7.0 2025-11-30
+
+### Fixed
+- Ensure first \r is not ignored with different styles
+- Update dependencies
+
+## v0.6.0 2025-03-17
 
 ### Added
 
