@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "extends": ["./node_modules/oxlint-config-presets/airbnb/base.json"],
+  "options": {
+    "typeAware": false
+  },
+  "rules": {
+    "no-bitwise": "off",
+    "no-continue": "off",
+    "no-plusplus": "off",
+    "import/prefer-default-export": "off",
+    "import/extensions": "off"
+  }
+}

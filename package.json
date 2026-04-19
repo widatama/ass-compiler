@@ -13,7 +13,7 @@
   ],
   "types": "types/index.d.ts",
   "scripts": {
-    "lint": "eslint src test",
+    "lint": "oxlint src test --fix",
     "unit": "vitest run",
     "cover": "vitest run --coverage",
     "test": "npm run lint && npm run unit",
@@ -44,9 +44,8 @@
   "homepage": "https://ass.js.org/ass-compiler/",
   "devDependencies": {
     "@vitest/coverage-v8": "^4.1.4",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.32.0",
+    "oxlint": "^1.60.0",
+    "oxlint-config-presets": "^0.1.7",
     "rollup": "^4.60.1",
     "rollup-plugin-buble": "^0.19.8",
     "rollup-plugin-replace": "^2.2.0",

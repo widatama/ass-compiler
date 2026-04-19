@@ -12,7 +12,7 @@ export function parse(text) {
   let state = 0;
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
-    if (/^;/.test(line)) continue;
+    if (line.startsWith(';')) continue;
 
     if (/^\[Script Info\]/i.test(line)) state = 1;
     else if (/^\[V4\+? Styles\]/i.test(line)) state = 2;

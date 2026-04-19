@@ -19,9 +19,9 @@ export function parseTag(text) {
       return tag;
     }
   }
-  if (/^fn/.test(text)) {
+  if (text.startsWith('fn')) {
     tag.fn = text.slice(2);
-  } else if (/^r/.test(text)) {
+  } else if (text.startsWith('r')) {
     tag.r = text.slice(1);
   } else if (/^fs[\d+-]/.test(text)) {
     tag.fs = text.slice(2);
@@ -61,7 +61,7 @@ export function parseTag(text) {
     if (p.length === 4) {
       tag.clip.dots = p.map(Number);
     }
-  } else if (/^t\(/.test(text)) {
+  } else if (text.startsWith('t(')) {
     const p = text
       .match(/^t\((.*?)\)?$/)[1]
       .trim()
